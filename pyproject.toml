@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "teufa"
+version = "0.1.0"
+description = ""
+license = "MIT"
+authors = ["Brian Rosner <brian@brosner.com>"]
+readme = "README.md"
+packages = [
+  { include = "teufa" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+click = "^8.1.7"
+gunicorn = "^22.0.0"
+flask = "^3.0.3"
+
+[tool.poetry.scripts]
+teufa = "teufa.cli:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
