@@ -10,7 +10,8 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VERSION="1.8.3" \
     POETRY_HOME="/opt/poetry" \
     POETRY_NO_INTERACTION=1 \
-    VENV_PATH="/opt/venv"
+    VENV_PATH="/opt/venv" \
+    APP_HOME="/opt/app"
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 ENV VIRTUAL_ENV=$VENV_PATH
 
@@ -25,7 +26,7 @@ RUN apt-get update && \
 RUN --mount=type=cache,target=/root/.cache \
     curl -sSL https://install.python-poetry.org | python -
 
-WORKDIR /opt/app
+WORKDIR $APP_HOME
 COPY poetry.lock pyproject.toml ./
 
 RUN --mount=type=cache,target=/root/.cache \
@@ -42,17 +43,30 @@ FROM base as dev
 
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $VENV_PATH $VENV_PATH
+COPY --from=builder-base $APP_HOME $APP_HOME
 
-WORKDIR /opt/app
-COPY . .
+WORKDIR $APP_HOME
 
 RUN --mount=type=cache,target=/root/.cache \
     poetry install --with=dev && \
-    rm -rf /opt/app
+    rm -rf $APP_HOME
 
 EXPOSE 8000
 
 CMD ["teufa", "server", "--dev"]
+
+
+## ci image
+FROM base as ci
+
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+COPY --from=builder-base $VENV_PATH $VENV_PATH
+COPY --from=builder-base $APP_HOME $APP_HOME
+
+WORKDIR $APP_HOME
+
+RUN --mount=type=cache,target=/root/.cache \
+    poetry install --with=dev
 
 
 ## prod image
@@ -60,5 +74,7 @@ FROM base as prod
 
 COPY --from=builder-base $VENV_PATH $VENV_PATH
 COPY --from=builder-base /opt/app /opt/app
+
+WORKDIR $APP_HOME
 
 CMD ["teufa", "server"]
