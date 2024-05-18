@@ -4,7 +4,6 @@ from .app import create_app
 
 
 class Application(gunicorn.app.base.BaseApplication):
-
     def __init__(self, options=None):
         self.options = options or {}
         super().__init__()
