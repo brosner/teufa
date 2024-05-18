@@ -30,3 +30,20 @@ jobs:
         with:
           image: teufa:ci
           run: pytest
+      - name: docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: build prod image
+        uses: docker/build-push-action@v5
+        if: github.ref == 'refs/heads/main'
+        with:
+          context: .
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          target: prod
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: false
