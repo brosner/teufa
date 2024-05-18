@@ -28,6 +28,7 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
+    needs: prepare
     container: teufa:ci
     services:
       postgres:
@@ -46,6 +47,7 @@ jobs:
 
   build-push:
     runs-on: ubuntu-latest
+    needs: tests
     permissions:
       contents: read
       packages: write
