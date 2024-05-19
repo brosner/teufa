@@ -15,7 +15,7 @@ click = "^8.1.7"
 gunicorn = "^22.0.0"
 flask = "^3.0.3"
 flask-sqlalchemy = "^3.1.1"
-psycopg2 = "^2.9.9"
+psycopg = "^3.1.19"
 
 [tool.poetry.scripts]
 teufa = "teufa.cli:cli"

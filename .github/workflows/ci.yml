@@ -53,7 +53,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: ${{ env.IMAGE_NAME }}:ci
-          options: -e DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+          options: -e DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/postgres
           run: pytest
   build:
     name: Build and push image
