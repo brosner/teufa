@@ -1,7 +1,9 @@
 from flask import Flask
 
+from .ext import db
+
 
 def create_app():
     app = Flask(__name__)
-    app.config["A"] = 1
+    db.init_app(app)
     return app
