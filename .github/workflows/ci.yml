@@ -12,6 +12,7 @@ env:
 
 jobs:
   pre-commit:
+    name: Static Analysis (pre-commit)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +21,7 @@ jobs:
           python-version: "3.12"
       - uses: pre-commit/action@v3.0.1
   tests:
+    name: Tests
     runs-on: ubuntu-latest
     services:
       postgres:
