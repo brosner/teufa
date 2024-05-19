@@ -24,7 +24,8 @@ RUN set -ex \
 
 ## builder-base image
 FROM base as builder-base
-RUN apt-get install --no-install-recommends -y \
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
       curl \
       build-essential \
       libpq-dev \
