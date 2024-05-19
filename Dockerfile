@@ -40,7 +40,7 @@ COPY poetry.lock pyproject.toml ./
 
 RUN --mount=type=cache,target=/root/.cache \
     python -m venv $VENV_PATH && \
-    poetry install --no-root --without=dev
+    poetry install --no-root --only=main
 
 COPY . .
 RUN --mount=type=cache,target=/root/.cache \
@@ -75,7 +75,7 @@ COPY --from=builder-base $APP_HOME $APP_HOME
 WORKDIR $APP_HOME
 
 RUN --mount=type=cache,target=/root/.cache \
-    poetry install --with=dev
+    poetry install --with=tests
 
 
 ## prod image
