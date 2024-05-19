@@ -15,13 +15,21 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 ENV VIRTUAL_ENV=$VENV_PATH
 
+RUN set -ex \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y \
+      libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
 
 ## builder-base image
 FROM base as builder-base
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
+RUN apt-get install --no-install-recommends -y \
       curl \
-      build-essential
+      build-essential \
+      libpq-dev \
+      python3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN --mount=type=cache,target=/root/.cache \
     curl -sSL https://install.python-poetry.org | python -
