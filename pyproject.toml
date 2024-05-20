@@ -20,9 +20,8 @@ psycopg = "^3.1.19"
 [tool.poetry.scripts]
 teufa = "teufa.cli:cli"
 
-[tool.poetry.group.tests.dependencies]
+[tool.poetry.group.test.dependencies]
 pytest = "^8.2.0"
-
 
 [tool.poetry.group.dev.dependencies]
 pydeps = "^1.12.20"

@@ -75,7 +75,7 @@ COPY --from=builder-base $APP_HOME $APP_HOME
 WORKDIR $APP_HOME
 
 RUN --mount=type=cache,target=/root/.cache \
-    poetry install --with=tests
+    poetry install --with=test
 
 
 ## prod image
