@@ -54,7 +54,7 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}:ci
           options: -e DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/postgres
-          run: pytest
+          run: pytest --cov=teufa tests/
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
