@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: poetry install --with=test
       - name: Run pytest
-        run: pytest --cov=teufa tests/
+        run: poetry run pytest --cov=teufa tests/
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
       - name: Upload coverage reports to Codecov
