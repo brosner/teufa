@@ -55,6 +55,10 @@ jobs:
           image: ${{ env.IMAGE_NAME }}:ci
           options: -e DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/postgres
           run: pytest
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
   build:
     name: Build and push image
     runs-on: ubuntu-latest
