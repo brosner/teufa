@@ -1,8 +1,10 @@
 from unittest.mock import patch
 
+import gunicorn.arbiter
 from click.testing import CliRunner
 
 import teufa.cli
+from teufa.server import Application
 
 
 @patch("teufa.server.Application.run")
@@ -29,3 +31,8 @@ def test_cli_server_dev(MockApplication):
         }
     )
     MockApplication.return_value.run.assert_called_once_with()
+
+
+def test_gunicorn_arbiter_with_application():
+    arbiter = gunicorn.arbiter.Arbiter(Application())
+    arbiter.stop()
