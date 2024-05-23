@@ -79,6 +79,11 @@ jobs:
             type=ref,event=branch
             type=ref,event=pr
             type=sha
+          labels: |
+            org.opencontainers.image.title=teufa
+            org.opencontainers.image.description=teufa container image
+            org.opencontainers.image.source=https://github.com/brosner/teufa
+            org.opencontainers.image.licenses=MIT
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
       - name: Build image

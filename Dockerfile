@@ -81,10 +81,6 @@ RUN --mount=type=cache,target=/root/.cache \
 ## prod image
 FROM base as prod
 
-LABEL org.opencontainers.image.source=https://github.com/brosner/teufa
-LABEL org.opencontainers.image.description="teufa container image"
-LABEL org.opencontainers.image.licenses=MIT
-
 COPY --from=builder-base $VENV_PATH $VENV_PATH
 COPY --from=builder-base /opt/app /opt/app
 
