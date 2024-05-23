@@ -62,7 +62,8 @@ RUN --mount=type=cache,target=/root/.cache \
 
 EXPOSE 8000
 
-CMD ["teufa", "server", "--dev"]
+ENTRYPOINT ["teufa"]
+CMD ["server", "--dev"]
 
 
 ## ci image
@@ -86,4 +87,5 @@ COPY --from=builder-base /opt/app /opt/app
 
 WORKDIR $APP_HOME
 
-CMD ["teufa", "server"]
+ENTRYPOINT ["teufa"]
+CMD ["server"]
