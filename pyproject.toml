@@ -16,6 +16,7 @@ gunicorn = "^22.0.0"
 flask = "^3.0.3"
 flask-sqlalchemy = "^3.1.1"
 psycopg = "^3.1.19"
+alembic = "^1.13.1"
 
 [tool.poetry.scripts]
 teufa = "teufa.cli:cli"

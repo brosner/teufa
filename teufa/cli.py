@@ -1,5 +1,8 @@
+import sys
+
 import click
 
+import alembic.config
 import teufa.server
 
 
@@ -18,6 +21,13 @@ def server(dev):
     teufa.server.Application(cfg).run()
 
 
-@cli.command()
-def initdb():
-    click.echo("Initialized the database")
+@cli.command(
+    "alembic",
+    context_settings={
+        "ignore_unknown_options": True,
+        "allow_extra_args": True,
+    },
+    add_help_option=False,
+)
+def run_alembic(*args, **kwargs):
+    alembic.config.main(prog="teufa alembic", argv=sys.argv[2:])
