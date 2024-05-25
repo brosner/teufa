@@ -24,7 +24,7 @@ def test_cli_server_dev(MockApplication):
 
     MockApplication.assert_called_once_with(
         {
-            "bind": "127.0.0.1:8000",
+            "bind": "0.0.0.0:8000",
             "reload": True,
         }
     )
