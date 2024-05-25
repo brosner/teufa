@@ -1,3 +1,4 @@
+import os
 import sys
 
 import click
@@ -14,8 +15,9 @@ def cli():
 @cli.command()
 @click.option("--dev/--no-dev", default=False)
 def server(dev):
+    port = os.environ.get("PORT", 8000)
     cfg = {
-        "bind": "127.0.0.1:8000",
+        "bind": f"0.0.0.0:{port}",
         "reload": dev,
     }
     teufa.server.Application(cfg).run()
