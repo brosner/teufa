@@ -2,7 +2,8 @@
     "name": "Python 3",
     "image": "mcr.microsoft.com/devcontainers/python",
     "features": {
-        "ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
+        "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
+        "ghcr.io/devcontainers-contrib/features/poetry:2": {}
     },
     "postCreateCommand": "pre-commit install"
 }
