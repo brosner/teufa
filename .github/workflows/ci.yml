@@ -12,14 +12,25 @@ env:
 
 jobs:
   pre-commit:
-    name: Static Analysis (pre-commit)
+    name: Static Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
-      - uses: pre-commit/action@v3.0.1
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.18"
+      - name: Install dependencies
+        run: uv sync --dev --group=test
+      - run: echo "$(pwd)/.venv/bin" >> $GITHUB_PATH
+      - uses: chartboost/ruff-action@v1
+        with:
+          args: format --check
+      - uses: jakebailey/pyright-action@v2
   tests:
     name: Tests
     runs-on: ubuntu-latest
