@@ -12,14 +12,25 @@ env:
 
 jobs:
   pre-commit:
-    name: Static Analysis (pre-commit)
+    name: Static Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: pre-commit/action@v3.0.1
+      - name: Setup poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: "1.8.3"
+      - name: Install dependencies
+        run: poetry install
+      - run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
+      - uses: chartboost/ruff-action@v1
+        with:
+          args: format --check
+      - uses: jakebailey/pyright-action@v2
   tests:
     name: Tests
     runs-on: ubuntu-latest
