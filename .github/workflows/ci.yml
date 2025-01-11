@@ -49,11 +49,16 @@ jobs:
       - name: Install dependencies
         run: uv sync --group=test
       - name: Run pytest
-        run: uv run pytest --cov=teufa --cov-report=xml tests/
+        run: uv run pytest --cov=teufa --cov-report=xml --junitxml=junit.xml --override-ini=junit_family=legacy tests/
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/postgres
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.4.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
   build:
