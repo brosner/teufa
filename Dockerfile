@@ -43,8 +43,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.5.18 /uv /uvx /bin/
 
 WORKDIR $APP_HOME
 
-RUN uv sync --frozen --dev && \
-    rm -rf $APP_HOME
+RUN uv sync --frozen --dev
 
 EXPOSE 8000
 

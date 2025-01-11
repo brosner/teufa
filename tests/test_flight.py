@@ -30,7 +30,7 @@ def test_create_flight(client: FlaskClient):
     )
 
     assert response.status_code == 201
-    assert json.loads(response.json) == {
+    assert response.json == {
         "flight": {
             "id": 1,
             "departure_icao": "KDEN",
@@ -63,7 +63,7 @@ def test_get_flight(client: FlaskClient):
     response = client.get("/api/v1/flights/1")
 
     assert response.status_code == 200
-    assert json.loads(response.json) == {
+    assert response.json == {
         "flight": {
             "id": 1,
             "departure_icao": "KDEN",
@@ -77,7 +77,7 @@ def test_get_flight_not_found(client: FlaskClient):
     response = client.get("/api/v1/flights/1")
 
     assert response.status_code == 404
-    assert json.loads(response.json) == {"message": "Flight not found"}
+    assert response.json == {"message": "Flight not found"}
 
 
 def test_update_flight(client: FlaskClient):
@@ -112,7 +112,7 @@ def test_update_flight(client: FlaskClient):
     )
 
     assert response.status_code == 200
-    assert json.loads(response.json) == {
+    assert response.json == {
         "flight": {
             "id": 1,
             "departure_icao": "KJFK",
@@ -134,7 +134,7 @@ def test_update_flight_not_found(client: FlaskClient):
     )
 
     assert response.status_code == 404
-    assert json.loads(response.json) == {"message": "Flight not found"}
+    assert response.json == {"message": "Flight not found"}
 
 
 def test_delete_flight(client: FlaskClient):
@@ -170,4 +170,4 @@ def test_delete_flight_not_found(client: FlaskClient):
     response = client.delete("/api/v1/flights/1")
 
     assert response.status_code == 404
-    assert json.loads(response.json) == {"message": "Flight not found"}
+    assert response.json == {"message": "Flight not found"}
