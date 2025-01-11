@@ -42,14 +42,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Setup poetry
-        uses: abatilo/actions-poetry@v2
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          poetry-version: "1.8.3"
+          version: "0.5.18"
       - name: Install dependencies
-        run: poetry install --with=test
+        run: uv sync --group=test
       - name: Run pytest
-        run: poetry run pytest --cov=teufa --cov-report=xml tests/
+        run: uv run pytest --cov=teufa --cov-report=xml tests/
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/postgres
       - name: Upload coverage reports to Codecov
