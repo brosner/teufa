@@ -1,6 +1,3 @@
-import json
-
-from flask import g
 from flask.testing import FlaskClient
 from sqlalchemy.sql import func, select
 
@@ -8,9 +5,9 @@ from teufa import db as dbm
 from teufa.ext import db
 
 
-def test_create_flight(client: FlaskClient):
+def test_create_flight(client: FlaskClient, tenant: dbm.Tenant):
     aircraft = dbm.Aircraft(
-        tenant_id=g.tenant.id,
+        tenant_id=tenant.id,
         icao="B737",
         tail_number="N12345",
         range_nm=3000,
@@ -40,9 +37,9 @@ def test_create_flight(client: FlaskClient):
     }
 
 
-def test_get_flight(client: FlaskClient):
+def test_get_flight(client: FlaskClient, tenant: dbm.Tenant):
     aircraft = dbm.Aircraft(
-        tenant_id=g.tenant.id,
+        tenant_id=tenant.id,
         icao="B737",
         tail_number="N12345",
         range_nm=3000,
@@ -52,7 +49,7 @@ def test_get_flight(client: FlaskClient):
     db.session.add(
         dbm.Flight(
             id=1,
-            tenant_id=g.tenant.id,
+            tenant_id=tenant.id,
             departure_icao="KDEN",
             arrival_icao="KLGA",
             aircraft_id=aircraft.id,
@@ -80,9 +77,9 @@ def test_get_flight_not_found(client: FlaskClient):
     assert response.json == {"message": "Flight not found"}
 
 
-def test_update_flight(client: FlaskClient):
+def test_update_flight(client: FlaskClient, tenant: dbm.Tenant):
     aircraft = dbm.Aircraft(
-        tenant_id=g.tenant.id,
+        tenant_id=tenant.id,
         icao="B737",
         tail_number="N12345",
         range_nm=3000,
@@ -92,7 +89,7 @@ def test_update_flight(client: FlaskClient):
     db.session.add(
         dbm.Flight(
             id=1,
-            tenant_id=g.tenant.id,
+            tenant_id=tenant.id,
             departure_icao="KDEN",
             arrival_icao="KLGA",
             aircraft_id=aircraft.id,
@@ -137,9 +134,9 @@ def test_update_flight_not_found(client: FlaskClient):
     assert response.json == {"message": "Flight not found"}
 
 
-def test_delete_flight(client: FlaskClient):
+def test_delete_flight(client: FlaskClient, tenant: dbm.Tenant):
     aircraft = dbm.Aircraft(
-        tenant_id=g.tenant.id,
+        tenant_id=tenant.id,
         icao="B737",
         tail_number="N12345",
         range_nm=3000,
@@ -149,7 +146,7 @@ def test_delete_flight(client: FlaskClient):
     db.session.add(
         dbm.Flight(
             id=1,
-            tenant_id=g.tenant.id,
+            tenant_id=tenant.id,
             departure_icao="KDEN",
             arrival_icao="KLGA",
             aircraft_id=aircraft.id,

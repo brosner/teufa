@@ -12,20 +12,22 @@ def app():
     app = create_app()
     with app.app_context():
         dbm.Base.metadata.create_all(db.engine)
-
-        tenant = dbm.Tenant(
-            name="Default",
-            hostname="localhost",
-        )
-        db.session.add(tenant)
-        db.session.commit()
-        g.tenant = tenant
-
         yield app
-
         dbm.Base.metadata.drop_all(db.engine)
 
 
 @pytest.fixture
-def client(app: Flask) -> FlaskClient:
+def tenant(app: Flask):
+    tenant = dbm.Tenant(
+        name="Default",
+        hostname="localhost",
+    )
+    db.session.add(tenant)
+    db.session.commit()
+
+    return tenant
+
+
+@pytest.fixture
+def client(app: Flask, tenant) -> FlaskClient:
     return app.test_client()
