@@ -1,12 +1,10 @@
 {
   "healthchecks": {
-    "api": [
+    "web": [
       {
         "type": "startup",
-        "name": "api check",
-        "description": "Checking if the app responds to the /health/ready endpoint",
         "path": "/healthz",
-        "attempts": 3
+        "attempts": 5
       }
     ]
   }
