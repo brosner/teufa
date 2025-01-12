@@ -44,14 +44,14 @@ class FlightResource(Resource):
             return dao.Error(message="Flight not found").model_dump(), 404
 
         res = dao.GetFlightResponse(
-            **{
-                "flight": {
+            flight=dao.Flight(
+                **{
                     "id": flight.id,
                     "departure_icao": flight.departure_icao,
                     "arrival_icao": flight.arrival_icao,
                     "aircraft_id": flight.aircraft_id,
                 }
-            }
+            )
         )
 
         return res.model_dump()

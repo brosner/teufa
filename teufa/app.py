@@ -15,11 +15,10 @@ def create_app():
 
     @app.before_request
     def before_request():
-        if not hasattr(g, "tenant"):
-            hostname = request.host.split(":")[0]
-            g.tenant = db.session.scalars(
-                select(dbm.Tenant).filter_by(hostname=hostname).limit(1)
-            ).first()
+        hostname = request.host.split(":")[0]
+        g.tenant = db.session.scalars(
+            select(dbm.Tenant).filter_by(hostname=hostname).limit(1)
+        ).first()
 
     @app.teardown_request
     def teardown_request(exc):
