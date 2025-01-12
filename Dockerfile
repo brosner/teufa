@@ -47,8 +47,7 @@ RUN uv sync --frozen --dev
 
 EXPOSE 8000
 
-ENTRYPOINT ["teufa"]
-CMD ["server", "--dev"]
+CMD ["teufa", "server", "--dev"]
 
 
 ## ci image
@@ -69,5 +68,4 @@ COPY --from=builder-base /opt/app /opt/app
 
 WORKDIR $APP_HOME
 
-ENTRYPOINT ["teufa"]
-CMD ["server"]
+CMD ["teufa", "server"]

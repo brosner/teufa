@@ -1,1 +1,2 @@
-release: alembic upgrade head
+web: teufa server
+release: teufa alembic upgrade head
