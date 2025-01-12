@@ -2,8 +2,8 @@ from flask import Blueprint, Flask, g, request
 from flask_restful import Api
 from sqlalchemy import select
 
+from .. import db as dbm
 from ..ext import db
-from . import db as dbm
 from .flights import FlightCollectionResource, FlightResource
 
 bp = Blueprint("api", __name__, url_prefix="/api")
