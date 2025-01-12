@@ -1,7 +1,5 @@
-from flask import Flask, g, request
-from sqlalchemy import select
+from flask import Flask
 
-from . import db as dbm
 from .config import Config
 from .ext import db
 from .v1_api import bp as v1_bp
@@ -13,14 +11,6 @@ def create_app():
 
     db.init_app(app)
 
-    @app.before_request
-    def before_request():
-        if not hasattr(g, "tenant"):
-            hostname = request.host.split(":")[0]
-            g.tenant = db.session.scalars(
-                select(dbm.Tenant).filter_by(hostname=hostname).limit(1)
-            ).first()
-
     @app.teardown_request
     def teardown_request(exc):
         if exc:
@@ -28,5 +18,9 @@ def create_app():
         db.session.remove()
 
     app.register_blueprint(v1_bp)
+
+    @app.route("/healthz")
+    def healthz():
+        return {"status": "ok"}
 
     return app
