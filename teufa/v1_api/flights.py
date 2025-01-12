@@ -33,7 +33,7 @@ class FlightCollectionResource(Resource):
             }
         )
 
-        return res.model_dump_json(), 201
+        return res.model_dump(), 201
 
 
 class FlightResource(Resource):
@@ -41,7 +41,7 @@ class FlightResource(Resource):
         flight = db.session.get(dbm.Flight, flight_id)
 
         if not flight:
-            return dao.Error(message="Flight not found").model_dump_json(), 404
+            return dao.Error(message="Flight not found").model_dump(), 404
 
         res = dao.GetFlightResponse(
             **{
@@ -54,13 +54,13 @@ class FlightResource(Resource):
             }
         )
 
-        return res.model_dump_json()
+        return res.model_dump()
 
     def put(self, flight_id):
         flight = db.session.get(dbm.Flight, flight_id)
 
         if not flight:
-            return dao.Error(message="Flight not found").model_dump_json(), 404
+            return dao.Error(message="Flight not found").model_dump(), 404
 
         data = request.get_json()
 
@@ -88,13 +88,13 @@ class FlightResource(Resource):
             }
         )
 
-        return res.model_dump_json()
+        return res.model_dump()
 
     def delete(self, flight_id):
         flight = db.session.get(dbm.Flight, flight_id)
 
         if not flight:
-            return dao.Error(message="Flight not found").model_dump_json(), 404
+            return dao.Error(message="Flight not found").model_dump(), 404
 
         db.session.delete(flight)
         db.session.commit()
