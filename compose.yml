@@ -1,5 +1,5 @@
 services:
-  teufa:
+  api:
     build:
       context: .
     develop:
@@ -26,8 +26,8 @@ services:
       - "5432:5432"
   migrate:
     image: teufa:latest
-    depends_on:
-      - db
+    command: alembic upgrade head
     environment:
       DATABASE_URL: postgresql+psycopg://postgres:changeme@db:5432/postgres
-    command: alembic upgrade head
+    depends_on:
+      - db
