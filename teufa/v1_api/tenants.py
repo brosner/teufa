@@ -4,10 +4,10 @@ from .. import dao
 from .. import db as dbm
 from ..ext import db
 
-tenants_bp = Blueprint("tenants", __name__)
+bp = Blueprint("tenants", __name__, url_prefix="/tenants")
 
 
-@tenants_bp.route("/tenants", methods=["POST"])
+@bp.route("", methods=["POST"])
 def create_tenant():
     data = request.get_json()
     req = dao.CreateTenantRequest(**data)
@@ -34,7 +34,7 @@ def create_tenant():
     return jsonify(res.model_dump()), 201
 
 
-@tenants_bp.route("/tenants/<int:tenant_id>", methods=["GET"])
+@bp.route("/<int:tenant_id>", methods=["GET"])
 def get_tenant(tenant_id):
     tenant = db.session.get(dbm.Tenant, tenant_id)
 
@@ -55,7 +55,7 @@ def get_tenant(tenant_id):
     return jsonify(res.model_dump())
 
 
-@tenants_bp.route("/tenants/<int:tenant_id>", methods=["PUT"])
+@bp.route("/<int:tenant_id>", methods=["PUT"])
 def update_tenant(tenant_id):
     tenant = db.session.get(dbm.Tenant, tenant_id)
 
@@ -86,7 +86,7 @@ def update_tenant(tenant_id):
     return jsonify(res.model_dump())
 
 
-@tenants_bp.route("/tenants/<int:tenant_id>", methods=["DELETE"])
+@bp.route("/<int:tenant_id>", methods=["DELETE"])
 def delete_tenant(tenant_id):
     tenant = db.session.get(dbm.Tenant, tenant_id)
 

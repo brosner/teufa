@@ -4,10 +4,10 @@ from .. import dao
 from .. import db as dbm
 from ..ext import db
 
-flights_bp = Blueprint("flights", __name__)
+bp = Blueprint("flights", __name__, url_prefix="/flights")
 
 
-@flights_bp.route("/flights", methods=["POST"])
+@bp.route("", methods=["POST"])
 def create_flight():
     data = request.get_json()
     req = dao.CreateFlightRequest(**data)
@@ -36,7 +36,7 @@ def create_flight():
     return jsonify(res.model_dump()), 201
 
 
-@flights_bp.route("/flights/<int:flight_id>", methods=["GET"])
+@bp.route("/<int:flight_id>", methods=["GET"])
 def get_flight(flight_id):
     flight = db.session.get(dbm.Flight, flight_id)
 
@@ -57,7 +57,7 @@ def get_flight(flight_id):
     return jsonify(res.model_dump())
 
 
-@flights_bp.route("/flights/<int:flight_id>", methods=["PUT"])
+@bp.route("/<int:flight_id>", methods=["PUT"])
 def update_flight(flight_id):
     flight = db.session.get(dbm.Flight, flight_id)
 
@@ -90,7 +90,7 @@ def update_flight(flight_id):
     return jsonify(res.model_dump())
 
 
-@flights_bp.route("/flights/<int:flight_id>", methods=["DELETE"])
+@bp.route("/<int:flight_id>", methods=["DELETE"])
 def delete_flight(flight_id):
     flight = db.session.get(dbm.Flight, flight_id)
 
