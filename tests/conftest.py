@@ -29,5 +29,5 @@ def tenant(app: Flask):
 
 
 @pytest.fixture
-def client(app: Flask, tenant) -> FlaskClient:
+def client(app: Flask) -> FlaskClient:
     return app.test_client()
