@@ -1,15 +1,22 @@
-from flask import Blueprint, Flask, g, request
-from flask_restful import Api
+from flask import Blueprint, g, request
 from sqlalchemy import select
 
 from .. import db as dbm
 from ..ext import db
-from .flights import FlightCollectionResource, FlightResource
+from .flights import flights_bp
+from .tenants import tenants_bp
 
-bp = Blueprint("api", __name__, url_prefix="/api")
+v1_bp = Blueprint("v1", __name__, url_prefix="/api/v1")
+
+admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
+
+admin_bp.register_blueprint(tenants_bp)
+v1_bp.register_blueprint(admin_bp)
+
+api_bp = Blueprint("api", __name__, url_prefix="/")
 
 
-@bp.before_request
+@api_bp.before_request
 def before_request():
     if not hasattr(g, "tenant"):
         hostname = request.host.split(":")[0]
@@ -18,7 +25,5 @@ def before_request():
         ).first()
 
 
-api = Api(bp)
-
-api.add_resource(FlightCollectionResource, "/v1/flights")
-api.add_resource(FlightResource, "/v1/flights/<int:flight_id>")
+api_bp.register_blueprint(flights_bp)
+v1_bp.register_blueprint(api_bp)
