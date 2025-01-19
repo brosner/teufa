@@ -3,8 +3,8 @@ from sqlalchemy import select
 
 from .. import db as dbm
 from ..ext import db
-from .flights import flights_bp
-from .tenants import tenants_bp
+from .flights import bp as flights_bp
+from .tenants import bp as tenants_bp
 
 v1_bp = Blueprint("v1", __name__, url_prefix="/api/v1")
 
