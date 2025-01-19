@@ -7,6 +7,38 @@ class Error(BaseModel):
     message: str
 
 
+class Tenant(BaseModel):
+    id: int | None = None
+    name: str
+    hostname: str
+
+
+class PartialTenant(BaseModel):
+    id: int | object = empty
+    name: str | object = empty
+    hostname: str | object = empty
+
+
+class CreateTenantRequest(BaseModel):
+    tenant: Tenant
+
+
+class CreateTenantResponse(BaseModel):
+    tenant: Tenant
+
+
+class UpdateTenantRequest(BaseModel):
+    tenant: PartialTenant
+
+
+class UpdateTenantResponse(BaseModel):
+    tenant: Tenant
+
+
+class GetTenantResponse(BaseModel):
+    tenant: Tenant
+
+
 class Flight(BaseModel):
     id: int | None = None
     departure_icao: str

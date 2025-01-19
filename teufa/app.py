@@ -2,7 +2,7 @@ from flask import Flask
 
 from .config import Config
 from .ext import db
-from .v1_api import bp as v1_bp
+from .v1_api import v1_bp
 
 
 def create_app():
