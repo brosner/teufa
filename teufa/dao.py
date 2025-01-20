@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 empty = object()
@@ -71,3 +73,37 @@ class UpdateFlightResponse(BaseModel):
 
 class GetFlightResponse(BaseModel):
     flight: Flight
+
+
+class Airline(BaseModel):
+    id: int | None = None
+    name: str
+    iata: str
+    icao: str
+
+
+class PartialAirline(BaseModel):
+    id: int | object = empty
+    name: str | object = empty
+    iata: str | object = empty
+    icao: str | object = empty
+
+
+class CreateAirlineRequest(BaseModel):
+    airline: Airline
+
+
+class CreateAirlineResponse(BaseModel):
+    airline: Airline
+
+
+class UpdateAirlineRequest(BaseModel):
+    airline: PartialAirline
+
+
+class UpdateAirlineResponse(BaseModel):
+    airline: Airline
+
+
+class GetAirlineResponse(BaseModel):
+    airline: Airline
