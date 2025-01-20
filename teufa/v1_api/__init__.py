@@ -3,6 +3,7 @@ from sqlalchemy import select
 
 from .. import db as dbm
 from ..ext import db
+from .airlines import bp as airlines_bp
 from .flights import bp as flights_bp
 from .tenants import bp as tenants_bp
 
@@ -25,5 +26,6 @@ def before_request():
         ).first()
 
 
+api_bp.register_blueprint(airlines_bp)
 api_bp.register_blueprint(flights_bp)
 v1_bp.register_blueprint(api_bp)
