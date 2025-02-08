@@ -1,5 +1,10 @@
 from datetime import datetime
 
+from authlib.integrations.sqla_oauth2 import (
+    OAuth2AuthorizationCodeMixin,
+    OAuth2ClientMixin,
+    OAuth2TokenMixin,
+)
 from sqlalchemy import ForeignKey, UniqueConstraint, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -46,6 +51,39 @@ class User(Base):
     created_at: Mapped[datetime] = mapped_column(default=func.now())
 
     tenant: Mapped["Tenant"] = relationship(back_populates="users")
+    oauth2_tokens: Mapped[list["OAuth2Token"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+    oauth2_authorization_codes: Mapped[list["OAuth2AuthorizationCode"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+
+    def get_user_id(self):
+        return self.id
+
+
+class OAuth2Client(Base, OAuth2ClientMixin):
+    __tablename__ = "oauth2_clients"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+
+class OAuth2Token(Base, OAuth2TokenMixin):
+    __tablename__ = "oauth2_tokens"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+
+    user: Mapped["User"] = relationship(back_populates="oauth2_tokens")
+
+
+class OAuth2AuthorizationCode(Base, OAuth2AuthorizationCodeMixin):
+    __tablename__ = "oauth2_authorization_codes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+
+    user: Mapped["User"] = relationship(back_populates="oauth2_authorization_codes")
 
 
 class Airline(Base):
