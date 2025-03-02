@@ -27,7 +27,7 @@ RUN apt-get update && \
       python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.6 /uv /uvx /bin/
 
 WORKDIR $APP_HOME
 COPY . .
@@ -39,7 +39,7 @@ RUN uv sync --frozen
 FROM base AS dev
 
 COPY --from=builder-base $APP_HOME $APP_HOME
-COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.6 /uv /uvx /bin/
 
 WORKDIR $APP_HOME
 
@@ -54,7 +54,7 @@ CMD ["teufa", "server", "--dev"]
 FROM base AS ci
 
 COPY --from=builder-base $APP_HOME $APP_HOME
-COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.6 /uv /uvx /bin/
 
 WORKDIR $APP_HOME
 
