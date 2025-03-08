@@ -1,5 +1,6 @@
 from flask import Flask
 
+from . import authz
 from .config import Config
 from .ext import db
 from .v1_api import v1_bp
@@ -10,6 +11,7 @@ def create_app():
     app.config.from_object(Config())
 
     db.init_app(app)
+    authz.init_app(app)
 
     @app.teardown_request
     def teardown_request(exc):
